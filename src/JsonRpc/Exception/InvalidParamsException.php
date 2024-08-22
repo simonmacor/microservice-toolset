@@ -10,6 +10,6 @@ class InvalidParamsException extends JsonRpcException
 {
     public function __construct()
     {
-        parent::__construct(JsonRpcError::InvalidParams->message(), JsonRpcError::InvalidParams->code());
+        parent::__construct(JsonRpcError::InvalidParams->message(), (int)JsonRpcError::InvalidParams->code());
     }
 }

@@ -25,6 +25,9 @@ enum JsonRpcError
         };
     }
 
+    /**
+     * @return int|array<int>
+     */
     public function code(): int|array
     {
         return match ($this) {

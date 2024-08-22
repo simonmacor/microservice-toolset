@@ -130,10 +130,10 @@ class ServiceCallerTest extends TestCase
      * @dataProvider handleJsonRpcErrorResponseProvider
      */
     public function testHandleJsonRpcErrorResponse(
-        $expectedException,
-        $expectedExceptionCode,
-        $expectedExceptionMessage,
-        $jsonResponse
+        string $expectedException,
+        int $expectedExceptionCode,
+        string $expectedExceptionMessage,
+        string $jsonResponse
     ): void
     {
         $this->expectException($expectedException);

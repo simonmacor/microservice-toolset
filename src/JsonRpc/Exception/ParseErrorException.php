@@ -10,6 +10,6 @@ class ParseErrorException extends JsonRpcException
 {
     public function __construct()
     {
-        parent::__construct(JsonRpcError::ParseError->message(), JsonRpcError::ParseError->code());
+        parent::__construct(JsonRpcError::ParseError->message(), (int)JsonRpcError::ParseError->code());
     }
 }

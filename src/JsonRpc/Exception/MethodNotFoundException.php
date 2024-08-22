@@ -10,6 +10,6 @@ class MethodNotFoundException extends JsonRpcException
 {
     public function __construct()
     {
-        parent::__construct(JsonRpcError::MethodNotFound->message(), JsonRpcError::MethodNotFound->code());
+        parent::__construct(JsonRpcError::MethodNotFound->message(), (int)JsonRpcError::MethodNotFound->code());
     }
 }
