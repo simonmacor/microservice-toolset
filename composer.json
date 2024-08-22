@@ -1,0 +1,25 @@
+{
+  "name": "simonmacor/microservice-toolset",
+  "description": "Toolset for a microservices architecture, logger, HTTP client compliant with the JSON-RPC standard.",
+  "type": "library",
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "monolog/monolog": "^3.7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^10.0",
+    "phpspec/prophecy-phpunit": "^2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "SimonMacor\\MicroserviceToolset\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SimonMacor\\MicroserviceToolset\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "stable",
+  "license": "MIT"
+}
