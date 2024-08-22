@@ -10,6 +10,6 @@ class InternalErrorException extends JsonRpcException
 {
     public function __construct()
     {
-        parent::__construct(JsonRpcError::InternalError->message(), JsonRpcError::InternalError->code());
+        parent::__construct(JsonRpcError::InternalError->message(), (int)JsonRpcError::InternalError->code());
     }
 }

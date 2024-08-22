@@ -7,8 +7,8 @@ namespace SimonMacor\MicroserviceToolset;
 class Context
 {
     public function __construct(
-        private string $id,
-        private string $principal
+        private readonly string $id,
+        private readonly string $principal
     ) {
     }
 

@@ -1,0 +1,29 @@
+parameters:
+    level: max
+    paths:
+        - src
+
+    scanFiles:
+        - %rootDir%/../../autoload.php
+
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+    reportUnmatchedIgnoredErrors: true
+    checkMissingVarTagTypehint: true
+    checkPhpDocMissingReturn: true
+
+    excludes_analyse:
+        - %currentWorkingDirectory%/vendor
+
+    inferPrivatePropertyTypeFromConstructor: true
+    treatPhpDocTypesAsCertain: true
+
+    checkExplicitMixed: true
+    checkUnionTypes: true
+    checkAlwaysTrueCheckTypeFunctionCall: true
+    checkAlwaysTrueInstanceof: true
+    checkAlwaysTrueStrictComparison: true
+    checkAlwaysTrueLooseComparison: true
+    checkArgumentsPassedByReference: true
+    checkFunctionNameCase: true
+    checkClassCaseSensitivity: true

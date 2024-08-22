@@ -6,17 +6,23 @@ namespace SimonMacor\MicroserviceToolset\JsonRpc;
 
 class Request
 {
-    const JSON_RPC_VERSION = "2.0";
+    public const JSON_RPC_VERSION = "2.0";
 
+    /**
+     * @param array<string, mixed> $params
+     */
     public function __construct(
-        private string $id,
-        private string $method,
-        private array $params = [],
-        private string $jsonrpc = self::JSON_RPC_VERSION,
+        private readonly string $id,
+        private readonly string $method,
+        private readonly array $params = [],
+        private readonly string $jsonrpc = self::JSON_RPC_VERSION,
     )
     {
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [
@@ -27,8 +33,13 @@ class Request
         ];
     }
 
-    public function toJson(): string
+    public function toJson(): null|string
     {
-        return json_encode($this->toArray());
+        $json = json_encode($this->toArray());
+        if ($json){
+            return $json;
+        } else {
+            return null;
+        }
     }
 }
