@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace SimonMacor\MicroserviceToolset;
+namespace MicroserviceToolset;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
-use SimonMacor\MicroserviceToolset\Exception\ServiceNotFound;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\InvalidRequestException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\MethodNotFoundException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\ParseErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\ServerErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\UnknownErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\JsonRpcError;
-use SimonMacor\MicroserviceToolset\JsonRpc\Request as JsonRpcRequest;
-use SimonMacor\MicroserviceToolset\JsonRpc\Response;
-use SimonMacor\MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
-use SimonMacor\MicroserviceToolset\ServicesRegistry\ServicesRegistryInterface;
+use MicroserviceToolset\Exception\ServiceNotFound;
+use MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
+use MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
+use MicroserviceToolset\JsonRpc\Exception\InvalidRequestException;
+use MicroserviceToolset\JsonRpc\Exception\MethodNotFoundException;
+use MicroserviceToolset\JsonRpc\Exception\ParseErrorException;
+use MicroserviceToolset\JsonRpc\Exception\ServerErrorException;
+use MicroserviceToolset\JsonRpc\Exception\UnknownErrorException;
+use MicroserviceToolset\JsonRpc\JsonRpcError;
+use MicroserviceToolset\JsonRpc\Request as JsonRpcRequest;
+use MicroserviceToolset\JsonRpc\Response;
+use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
+use MicroserviceToolset\ServicesRegistry\ServicesRegistryInterface;
 
-class ServiceCaller
+class JsonRpcClient
 {
     /**
      * @param array<string> $paramsToMask
@@ -56,6 +56,7 @@ class ServiceCaller
 
         $response = $this->client->sendRequest($this->buildRequest($JsonRpcRequest, $serviceConfiguration));
         $content = $response->getBody()->getContents();
+
         $this->logger->info("response received", $this->buildLogContextFromHttpResponse($content));
 
         /** @var array<string, mixed> $decodedContent */
@@ -87,19 +88,15 @@ class ServiceCaller
      */
     private function buildLogContextFromJsonRpcRequest(JsonRpcRequest $request): array
     {
-        $payload = $request->toArray();
+        $requestAsArray = $request->toArray();
         foreach ($this->paramsToMask as $key) {
-            if (is_array($payload['params']) && array_key_exists($key, $payload['params'])) {
-                $payload['params'][$key] = '****';
+            if (is_array($requestAsArray['params']) && array_key_exists($key, $requestAsArray['params'])) {
+                $requestAsArray['params'][$key] = '****';
             }
         }
 
         return [
-            "context" => [
-                "correlation_id" => $this->context->getId(),
-                "principal" => $this->context->getPrincipal(),
-            ],
-            "payload" => $payload,
+            "request" => $requestAsArray,
         ];
     }
 
@@ -108,13 +105,7 @@ class ServiceCaller
      */
     private function buildLogContextFromHttpResponse(?string $responseContent): array
     {
-        return [
-            "context" => [
-                "correlation_id" => $this->context->getId(),
-                "principal" => $this->context->getPrincipal(),
-            ],
-            "response" => $responseContent,
-        ];
+        return ["response" => $responseContent];
     }
 
     /**

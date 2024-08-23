@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SimonMacor\MicroserviceToolset\JsonRpc;
+namespace MicroserviceToolset\JsonRpc;
 
 enum JsonRpcError
 {
