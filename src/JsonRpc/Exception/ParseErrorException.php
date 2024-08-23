@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace SimonMacor\MicroserviceToolset\JsonRpc\Exception;
+namespace MicroserviceToolset\JsonRpc\Exception;
 
-use SimonMacor\MicroserviceToolset\JsonRpc\JsonRpcError;
+use MicroserviceToolset\JsonRpc\JsonRpcError;
 
 class ParseErrorException extends JsonRpcException
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SimonMacor\MicroserviceToolset\ServicesRegistry;
+namespace MicroserviceToolset\ServicesRegistry;
 
 readonly class ServiceConfiguration
 {

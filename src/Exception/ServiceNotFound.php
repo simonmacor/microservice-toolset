@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SimonMacor\MicroserviceToolset\Exception;
+namespace MicroserviceToolset\Exception;
 use RuntimeException;
 class ServiceNotFound extends RuntimeException
 {

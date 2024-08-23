@@ -1,6 +1,6 @@
 <?php
 
-namespace SimonMacor\MicroserviceToolset\ServicesRegistry;
+namespace MicroserviceToolset\ServicesRegistry;
 
 interface ServicesRegistryInterface
 {

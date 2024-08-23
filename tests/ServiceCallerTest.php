@@ -1,27 +1,27 @@
 <?php
 
-namespace SimonMacor\MicroserviceToolset\Tests;
+namespace MicroserviceToolset\Tests;
 
 use GuzzleHttp\Client;
 use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Log\LoggerInterface;
-use SimonMacor\MicroserviceToolset\Context;
-use SimonMacor\MicroserviceToolset\Exception\ServiceNotFound;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\InvalidRequestException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\MethodNotFoundException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\ParseErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\Exception\ServerErrorException;
-use SimonMacor\MicroserviceToolset\JsonRpc\JsonRpcError;
-use SimonMacor\MicroserviceToolset\JsonRpc\Response;
-use SimonMacor\MicroserviceToolset\ServiceCaller;
+use MicroserviceToolset\Context;
+use MicroserviceToolset\Exception\ServiceNotFound;
+use MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
+use MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
+use MicroserviceToolset\JsonRpc\Exception\InvalidRequestException;
+use MicroserviceToolset\JsonRpc\Exception\MethodNotFoundException;
+use MicroserviceToolset\JsonRpc\Exception\ParseErrorException;
+use MicroserviceToolset\JsonRpc\Exception\ServerErrorException;
+use MicroserviceToolset\JsonRpc\JsonRpcError;
+use MicroserviceToolset\JsonRpc\Response;
+use MicroserviceToolset\JsonRpcClient;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
-use SimonMacor\MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
-use SimonMacor\MicroserviceToolset\ServicesRegistry\ServicesRegistryInterface;
+use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
+use MicroserviceToolset\ServicesRegistry\ServicesRegistryInterface;
 
 class ServiceCallerTest extends TestCase
 {
@@ -54,7 +54,7 @@ class ServiceCallerTest extends TestCase
         $client = $this->prophesize(Client::class);
         $client->sendRequest(Argument::any())->willReturn($response->reveal());
 
-        $testedInstance = new ServiceCaller(
+        $testedInstance = new JsonRpcClient(
             $client->reveal(),
             $serviceRegistry->reveal(),
             $this->prophesize(LoggerInterface::class)->reveal(),
@@ -73,7 +73,7 @@ class ServiceCallerTest extends TestCase
         $serviceRegistry->getConfigurationByServiceName('testService')->willReturn(null);
 
 
-        $testedInstance = new ServiceCaller(
+        $testedInstance = new JsonRpcClient(
             $this->prophesize(Client::class)->reveal(),
             $serviceRegistry->reveal(),
             $this->prophesize(LoggerInterface::class)->reveal(),
@@ -166,7 +166,7 @@ class ServiceCallerTest extends TestCase
         $client = $this->prophesize(Client::class);
         $client->sendRequest(Argument::any())->willReturn($response->reveal());
 
-        $testedInstance = new ServiceCaller(
+        $testedInstance = new JsonRpcClient(
             $client->reveal(),
             $serviceRegistry->reveal(),
             $this->prophesize(LoggerInterface::class)->reveal(),
