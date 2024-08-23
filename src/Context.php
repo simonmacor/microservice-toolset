@@ -7,8 +7,6 @@ namespace MicroserviceToolset;
 class Context
 {
     /**
-     * @param string $id
-     * @param string $principal
      * @param array<string, mixed> $extra
      */
     public function __construct(

@@ -13,7 +13,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 class ContextHandlerTest extends TestCase
 {
     use ProphecyTrait;
-    public function testHandleSuccess()
+    public function testHandleSuccess(): void
     {
         $principal = 'testPrincipal';
         $requestId = 'testRequestId';

@@ -12,12 +12,9 @@ use MicroserviceToolset\Context;
 class ContextHandler extends StreamHandler
 {
     /**
-     * @param Context $context
      * @param resource|string $stream
-     * @param Level $level
-     * @param bool $bubble
      */
-    public function __construct(private Context $context, $stream = 'php://stdout', Level $level = Level::Info, bool $bubble = true)
+    public function __construct(private readonly Context $context, $stream = 'php://stdout', Level $level = Level::Info, bool $bubble = true)
     {
         parent::__construct($stream, $level, $bubble);
     }
