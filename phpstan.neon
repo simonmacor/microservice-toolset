@@ -12,7 +12,7 @@ parameters:
     checkMissingVarTagTypehint: true
     checkPhpDocMissingReturn: true
 
-    excludes_analyse:
+    excludePaths:
         - %currentWorkingDirectory%/vendor
 
     inferPrivatePropertyTypeFromConstructor: true
