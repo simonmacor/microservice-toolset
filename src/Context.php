@@ -28,6 +28,9 @@ class Context
         return $this->principal;
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public function getExtra(): array
     {
         return $this->extra;
