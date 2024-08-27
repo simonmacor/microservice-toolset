@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace MicroserviceToolset\JsonRpc\Exception;
 
-use MicroserviceToolset\JsonRpc\JsonRpcError;
+use MicroserviceToolset\JsonRpc\Error;
 
 class InvalidParamsException extends JsonRpcException
 {
     public function __construct()
     {
-        parent::__construct(JsonRpcError::InvalidParams->message(), (int)JsonRpcError::InvalidParams->code());
+        parent::__construct(Error::InvalidParams->message(), (int)Error::InvalidParams->code());
     }
 }

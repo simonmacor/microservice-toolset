@@ -1,29 +1,29 @@
 <?php
 
-namespace MicroserviceToolset\Tests;
+namespace MicroserviceToolset\Tests\JsonRpc;
 
 use GuzzleHttp\Client;
-use Prophecy\Argument;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Log\LoggerInterface;
 use MicroserviceToolset\Context;
 use MicroserviceToolset\Exception\ServiceNotFound;
+use MicroserviceToolset\JsonRpc\Client as JsonRpcClient;
 use MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
 use MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
 use MicroserviceToolset\JsonRpc\Exception\InvalidRequestException;
 use MicroserviceToolset\JsonRpc\Exception\MethodNotFoundException;
 use MicroserviceToolset\JsonRpc\Exception\ParseErrorException;
 use MicroserviceToolset\JsonRpc\Exception\ServerErrorException;
-use MicroserviceToolset\JsonRpc\JsonRpcError;
+use MicroserviceToolset\JsonRpc\Error;
 use MicroserviceToolset\JsonRpc\Response;
-use MicroserviceToolset\JsonRpcClient;
-use PHPUnit\Framework\TestCase;
-use Prophecy\PhpUnit\ProphecyTrait;
+use MicroserviceToolset\ServicesRegistry\Adapter\Adapter;
 use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
-use MicroserviceToolset\ServicesRegistry\ServicesRegistryInterface;
+use PHPUnit\Framework\TestCase;
+use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
+use Psr\Log\LoggerInterface;
 
-class ServiceCallerTest extends TestCase
+class ClientTest extends TestCase
 {
     use ProphecyTrait;
 
@@ -35,9 +35,9 @@ class ServiceCallerTest extends TestCase
             "secret"
         );
 
-        $serviceRegistry = $this->prophesize(ServicesRegistryInterface::class);
+        $serviceRegistry = $this->prophesize(Adapter::class);
         $serviceRegistry
-            ->getConfigurationByServiceName('testService')
+            ->getServiceByName('testService')
             ->willReturn($serviceConfiguration);
 
 
@@ -69,8 +69,8 @@ class ServiceCallerTest extends TestCase
     {
         $this->expectException(ServiceNotFound::class);
 
-        $serviceRegistry = $this->prophesize(ServicesRegistryInterface::class);
-        $serviceRegistry->getConfigurationByServiceName('testService')->willReturn(null);
+        $serviceRegistry = $this->prophesize(Adapter::class);
+        $serviceRegistry->getServiceByName('testService')->willReturn(null);
 
 
         $testedInstance = new JsonRpcClient(
@@ -89,38 +89,38 @@ class ServiceCallerTest extends TestCase
         return [
             'parse_error' => [
                 ParseErrorException::class,
-                JsonRpcError::ParseError->code(),
-                JsonRpcError::ParseError->message(),
+                Error::ParseError->code(),
+                Error::ParseError->message(),
                 '{"jsonrpc": "2.0", "error": {"code": -32700, "message": "Parse error"}, "id": "testContextId"}'
             ],
             'invalid_request' => [
                 InvalidRequestException::class,
-                JsonRpcError::InvalidRequest->code(),
-                JsonRpcError::InvalidRequest->message(),
+                Error::InvalidRequest->code(),
+                Error::InvalidRequest->message(),
                 '{"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": "testContextId"}'
             ],
             'invalid_params' => [
                 InvalidParamsException::class,
-                JsonRpcError::InvalidParams->code(),
-                JsonRpcError::InvalidParams->message(),
+                Error::InvalidParams->code(),
+                Error::InvalidParams->message(),
                 '{"jsonrpc": "2.0", "error": {"code": -32602, "message": "Invalid params"}, "id": "testContextId"}'
             ],
             'method_not_found' => [
                 MethodNotFoundException::class,
-                JsonRpcError::MethodNotFound->code(),
-                JsonRpcError::MethodNotFound->message(),
+                Error::MethodNotFound->code(),
+                Error::MethodNotFound->message(),
                 '{"jsonrpc": "2.0", "error": {"code": -32601, "message": "Method not found"}, "id": "testContextId"}'
             ],
             'internal_error' => [
                 InternalErrorException::class,
-                JsonRpcError::InternalError->code(),
-                JsonRpcError::InternalError->message(),
+                Error::InternalError->code(),
+                Error::InternalError->message(),
                 '{"jsonrpc": "2.0", "error": {"code": -32603, "message": "Internal error"}, "id": "testContextId"}'
             ],
             'server_error' => [
                 ServerErrorException::class,
                 -32001,
-                JsonRpcError::ServerError->message(),
+                Error::ServerError->message(),
                 '{"jsonrpc": "2.0", "error": {"code": -32001, "message": "Server error"}, "id": "testContextId"}'
             ],
         ];
@@ -147,9 +147,9 @@ class ServiceCallerTest extends TestCase
             "secret"
         );
 
-        $serviceRegistry = $this->prophesize(ServicesRegistryInterface::class);
+        $serviceRegistry = $this->prophesize(Adapter::class);
         $serviceRegistry
-            ->getConfigurationByServiceName('testService')
+            ->getServiceByName('testService')
             ->willReturn($serviceConfiguration);
 
 
