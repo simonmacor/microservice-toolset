@@ -7,16 +7,10 @@ namespace MicroserviceToolset\ServicesRegistry;
 readonly class ServiceConfiguration
 {
     public function __construct(
-        private string $serviceName,
         private string $address,
         private string $secret
     )
     {
-    }
-
-    public function getServiceName(): string
-    {
-        return $this->serviceName;
     }
 
     public function getAddress(): string

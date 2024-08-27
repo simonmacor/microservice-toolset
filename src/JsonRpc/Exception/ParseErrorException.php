@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace MicroserviceToolset\JsonRpc\Exception;
 
-use MicroserviceToolset\JsonRpc\JsonRpcError;
+use MicroserviceToolset\JsonRpc\Error;
 
 class ParseErrorException extends JsonRpcException
 {
     public function __construct()
     {
-        parent::__construct(JsonRpcError::ParseError->message(), (int)JsonRpcError::ParseError->code());
+        parent::__construct(Error::ParseError->message(), (int)Error::ParseError->code());
     }
 }

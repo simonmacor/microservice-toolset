@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset;
+namespace MicroserviceToolset\JsonRpc;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request;
-use Psr\Http\Client\ClientExceptionInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Log\LoggerInterface;
+use MicroserviceToolset\Context;
 use MicroserviceToolset\Exception\ServiceNotFound;
 use MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
 use MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
@@ -17,24 +15,25 @@ use MicroserviceToolset\JsonRpc\Exception\MethodNotFoundException;
 use MicroserviceToolset\JsonRpc\Exception\ParseErrorException;
 use MicroserviceToolset\JsonRpc\Exception\ServerErrorException;
 use MicroserviceToolset\JsonRpc\Exception\UnknownErrorException;
-use MicroserviceToolset\JsonRpc\JsonRpcError;
 use MicroserviceToolset\JsonRpc\Request as JsonRpcRequest;
-use MicroserviceToolset\JsonRpc\Response;
+use MicroserviceToolset\ServicesRegistry\Adapter\Adapter;
 use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
-use MicroserviceToolset\ServicesRegistry\ServicesRegistryInterface;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Message\RequestInterface;
+use Psr\Log\LoggerInterface;
 
-class JsonRpcClient
+class Client
 {
     /**
      * @param array<string> $paramsToMask
      */
     public function __construct(
-        private readonly Client $client,
-        private readonly ServicesRegistryInterface $serviceRegistry,
-        private readonly LoggerInterface $logger,
-        private readonly Context $context,
-        private readonly string $path = "/jsonrpc",
-        private readonly array $paramsToMask = ["password"],
+        private readonly GuzzleClient     $client,
+        private readonly Adapter $serviceRegistry,
+        private readonly LoggerInterface  $logger,
+        private readonly Context          $context,
+        private readonly string           $path = "/jsonrpc",
+        private readonly array            $paramsToMask = ["password"],
     ) {
     }
 
@@ -45,7 +44,7 @@ class JsonRpcClient
      */
     public function callService(string $serviceName, string $method, array $params, int $version = 1): Response
     {
-        $serviceConfiguration = $this->serviceRegistry->getConfigurationByServiceName($serviceName);
+        $serviceConfiguration = $this->serviceRegistry->getServiceByName($serviceName);
         if (!$serviceConfiguration instanceof ServiceConfiguration) {
             throw new ServiceNotFound($serviceName);
         }
@@ -130,18 +129,18 @@ class JsonRpcClient
                 && $this->validateJsonRpcErrorObject($responseAsArray["error"]))
         ) {
 
-            if (is_array(JsonRpcError::ServerError->code())
-                && in_array($responseAsArray["error"]["code"], JsonRpcError::ServerError->code())
+            if (is_array(Error::ServerError->code())
+                && in_array($responseAsArray["error"]["code"], Error::ServerError->code())
             ) {
                 throw new ServerErrorException((int)$responseAsArray["error"]["code"]);
             }
 
             match ($responseAsArray["error"]["code"]) {
-                JsonRpcError::ParseError->code() => throw new ParseErrorException(),
-                JsonRpcError::InvalidParams->code() => throw new InvalidParamsException(),
-                JsonRpcError::InvalidRequest->code() => throw new InvalidRequestException(),
-                JsonRpcError::MethodNotFound->code() => throw new MethodNotFoundException(),
-                JsonRpcError::InternalError->code() => throw new InternalErrorException(),
+                Error::ParseError->code() => throw new ParseErrorException(),
+                Error::InvalidParams->code() => throw new InvalidParamsException(),
+                Error::InvalidRequest->code() => throw new InvalidRequestException(),
+                Error::MethodNotFound->code() => throw new MethodNotFoundException(),
+                Error::InternalError->code() => throw new InternalErrorException(),
                 default => throw new UnknownErrorException(),
             };
         }
@@ -152,12 +151,12 @@ class JsonRpcClient
      */
     private function validateJsonRpcErrorObject(array $jsonRpcError): bool
     {
-        return ($jsonRpcError["code"] === JsonRpcError::ParseError->code() && $jsonRpcError['message'] === JsonRpcError::ParseError->message())
-        || ($jsonRpcError["code"] === JsonRpcError::InvalidRequest->code() && $jsonRpcError['message'] === JsonRpcError::InvalidRequest->message())
-        || ($jsonRpcError["code"] === JsonRpcError::InvalidParams->code() && $jsonRpcError['message'] === JsonRpcError::InvalidParams->message())
-        || ($jsonRpcError["code"] === JsonRpcError::MethodNotFound->code() && $jsonRpcError['message'] === JsonRpcError::MethodNotFound->message())
-        || ($jsonRpcError["code"] === JsonRpcError::InternalError->code() && $jsonRpcError['message'] === JsonRpcError::InternalError->message())
-        || (is_array(JsonRpcError::ServerError->code()) && in_array($jsonRpcError["code"], JsonRpcError::ServerError->code()) && $jsonRpcError['message'] === JsonRpcError::ServerError->message())
+        return ($jsonRpcError["code"] === Error::ParseError->code() && $jsonRpcError['message'] === Error::ParseError->message())
+        || ($jsonRpcError["code"] === Error::InvalidRequest->code() && $jsonRpcError['message'] === Error::InvalidRequest->message())
+        || ($jsonRpcError["code"] === Error::InvalidParams->code() && $jsonRpcError['message'] === Error::InvalidParams->message())
+        || ($jsonRpcError["code"] === Error::MethodNotFound->code() && $jsonRpcError['message'] === Error::MethodNotFound->message())
+        || ($jsonRpcError["code"] === Error::InternalError->code() && $jsonRpcError['message'] === Error::InternalError->message())
+        || (is_array(Error::ServerError->code()) && in_array($jsonRpcError["code"], Error::ServerError->code()) && $jsonRpcError['message'] === Error::ServerError->message())
         ;
     }
 }
