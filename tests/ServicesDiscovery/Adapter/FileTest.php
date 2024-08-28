@@ -21,12 +21,12 @@ class FileTest extends TestCase
         $this->assertInstanceOf(Adapter::class, new File($this->prophesize(FileConfig::class)->reveal()));
     }
 
-    public function testFileNotFound(): void
+    public function testFileNotFoundException(): void
     {
         $config = $this->prophesize(FileConfig::class);
-        $config->getAddress()->willReturn('/fichiertest.json');
+        $config->getAddress()->willReturn(__DIR__.'/../../data/files/empty-file.json');
         $this->expectException(FileNotFound::class);
-        $this->expectExceptionMessage('File "/fichiertest.json" not found');
+        $this->expectExceptionMessage(sprintf('File "%s" not found', __DIR__.'/../../data/files/empty-file.json'));
         $testedInstance = new File($config->reveal());
         $testedInstance->getServiceByName('test');
     }
