@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File;
 
-class FileNotFound extends \RuntimeException
+class FileNotFoundException extends \RuntimeException
 {
     public function __construct(string $filepath)
     {

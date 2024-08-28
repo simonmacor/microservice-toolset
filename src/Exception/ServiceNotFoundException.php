@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroserviceToolset\Exception;
 use RuntimeException;
-class ServiceNotFound extends RuntimeException
+class ServiceNotFoundException extends RuntimeException
 {
     public function __construct(string $serviceName)
     {

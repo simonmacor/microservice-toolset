@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MicroserviceToolset\ServicesDiscovery\Adapter;
 
-use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File\FileNotFound;
+use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File\FileNotFoundException;
 use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File\InvalidFormatException;
 use MicroserviceToolset\ServicesDiscovery\FileConfig;
 use MicroserviceToolset\ServicesDiscovery\ServiceConfiguration;
@@ -40,7 +40,7 @@ class File extends Adapter
         $filepath = $this->getConfig()->getAddress();
         $fileContent = file_get_contents($filepath);
         if (empty($fileContent)) {
-            throw new FileNotFound($filepath);
+            throw new FileNotFoundException($filepath);
         }
 
         return $this->extractServiceConfigurationFromJson($fileContent);

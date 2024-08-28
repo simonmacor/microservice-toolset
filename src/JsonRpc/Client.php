@@ -7,7 +7,7 @@ namespace MicroserviceToolset\JsonRpc;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Psr7\Request;
 use MicroserviceToolset\Context;
-use MicroserviceToolset\Exception\ServiceNotFound;
+use MicroserviceToolset\Exception\ServiceNotFoundException;
 use MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
 use MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
 use MicroserviceToolset\JsonRpc\Exception\InvalidRequestException;
@@ -46,7 +46,7 @@ class Client
     {
         $serviceConfiguration = $this->serviceRegistry->getServiceByName($serviceName);
         if (!$serviceConfiguration instanceof ServiceConfiguration) {
-            throw new ServiceNotFound($serviceName);
+            throw new ServiceNotFoundException($serviceName);
         }
 
         $JsonRpcRequest = new JsonRpcRequest($this->context->getId(), $method.'.'.$version, $params);
