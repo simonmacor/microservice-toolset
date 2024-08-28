@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\Tests\ServicesRegistry;
+namespace MicroserviceToolset\Tests\ServicesDiscovery;
 
-use MicroserviceToolset\ServicesRegistry\Config;
-use MicroserviceToolset\ServicesRegistry\FileConfig;
+use MicroserviceToolset\ServicesDiscovery\Config;
+use MicroserviceToolset\ServicesDiscovery\FileConfig;
 use PHPUnit\Framework\TestCase;
 
 class FileConfigTest extends TestCase

@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\Tests\ServicesRegistry\Adapter;
+namespace MicroserviceToolset\Tests\ServicesDiscovery\Adapter;
 
 use GuzzleHttp\Client;
-use MicroserviceToolset\ServicesRegistry\Adapter\Adapter;
-use MicroserviceToolset\ServicesRegistry\Adapter\Consul;
-use MicroserviceToolset\ServicesRegistry\AdapterException;
-use MicroserviceToolset\ServicesRegistry\ApiConfig;
-use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
+use MicroserviceToolset\ServicesDiscovery\Adapter\Adapter;
+use MicroserviceToolset\ServicesDiscovery\Adapter\Consul;
+use MicroserviceToolset\ServicesDiscovery\ApiConfig;
+use MicroserviceToolset\ServicesDiscovery\ServiceConfiguration;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;

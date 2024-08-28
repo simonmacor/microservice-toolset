@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\ServicesRegistry\Adapter;
+namespace MicroserviceToolset\ServicesDiscovery\Adapter;
 
 use DCarbone\PHPConsulAPI\Catalog\CatalogService;
 use DCarbone\PHPConsulAPI\Config as ConsulConfig;
 use DCarbone\PHPConsulAPI\Consul as ConsulClient;
-use MicroserviceToolset\ServicesRegistry\AdapterException;
-use MicroserviceToolset\ServicesRegistry\ApiConfig;
-use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
 use DCarbone\PHPConsulAPI\Error;
+use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\AdapterException;
+use MicroserviceToolset\ServicesDiscovery\ApiConfig;
+use MicroserviceToolset\ServicesDiscovery\ServiceConfiguration;
 
 class Consul extends Adapter
 {

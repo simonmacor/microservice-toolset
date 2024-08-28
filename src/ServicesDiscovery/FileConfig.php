@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\ServicesRegistry;
-
-use GuzzleHttp\Client;
+namespace MicroserviceToolset\ServicesDiscovery;
 
 class FileConfig extends Config
 {
