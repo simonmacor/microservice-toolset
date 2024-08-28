@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\ServicesRegistry\Adapter;
+namespace MicroserviceToolset\ServicesDiscovery\Adapter;
 
-use MicroserviceToolset\ServicesRegistry\Config;
-use MicroserviceToolset\ServicesRegistry\ServiceConfiguration;
+use MicroserviceToolset\ServicesDiscovery\Config;
+use MicroserviceToolset\ServicesDiscovery\ServiceConfiguration;
 
 abstract class Adapter
 {

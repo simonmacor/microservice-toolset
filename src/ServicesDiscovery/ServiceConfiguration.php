@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\ServicesRegistry;
+namespace MicroserviceToolset\ServicesDiscovery;
 
 readonly class ServiceConfiguration
 {

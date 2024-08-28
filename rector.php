@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Rector\Config\RectorConfig;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\ValueObject\PhpVersion;
+use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
@@ -12,7 +14,7 @@ return static function (RectorConfig $rectorConfig): void {
         __DIR__ . '/tests',
     ]);
 
-    $rectorConfig->phpVersion(\Rector\ValueObject\PhpVersion::PHP_82);
+    $rectorConfig->phpVersion(PhpVersion::PHP_82);
 
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_82,
@@ -22,4 +24,7 @@ return static function (RectorConfig $rectorConfig): void {
         SetList::STRICT_BOOLEANS,
         SetList::PHP_82,
     ]);
+
+    $rectorConfig->skip([DisallowedEmptyRuleFixerRector::class]);
+
 };

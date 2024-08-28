@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MicroserviceToolset\Tests\ServicesRegistry;
+namespace MicroserviceToolset\Tests\ServicesDiscovery;
 
 use GuzzleHttp\Client;
-use MicroserviceToolset\ServicesRegistry\ApiConfig;
-use MicroserviceToolset\ServicesRegistry\Config;
+use MicroserviceToolset\ServicesDiscovery\ApiConfig;
+use MicroserviceToolset\ServicesDiscovery\Config;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
