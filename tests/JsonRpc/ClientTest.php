@@ -4,7 +4,7 @@ namespace MicroserviceToolset\Tests\JsonRpc;
 
 use GuzzleHttp\Client;
 use MicroserviceToolset\Context;
-use MicroserviceToolset\Exception\ServiceNotFound;
+use MicroserviceToolset\Exception\ServiceNotFoundException;
 use MicroserviceToolset\JsonRpc\Client as JsonRpcClient;
 use MicroserviceToolset\JsonRpc\Exception\InternalErrorException;
 use MicroserviceToolset\JsonRpc\Exception\InvalidParamsException;
@@ -67,7 +67,7 @@ class ClientTest extends TestCase
     }
     public function testServiceNotFound(): void
     {
-        $this->expectException(ServiceNotFound::class);
+        $this->expectException(ServiceNotFoundException::class);
 
         $serviceRegistry = $this->prophesize(Adapter::class);
         $serviceRegistry->getServiceByName('testService')->willReturn(null);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MicroserviceToolset\Tests\ServicesDiscovery\Adapter;
 
 use MicroserviceToolset\ServicesDiscovery\Adapter\Adapter;
-use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File\FileNotFound;
+use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File\FileNotFoundException;
 use MicroserviceToolset\ServicesDiscovery\Adapter\Exception\File\InvalidFormatException;
 use MicroserviceToolset\ServicesDiscovery\Adapter\File;
 use MicroserviceToolset\ServicesDiscovery\FileConfig;
@@ -25,7 +25,7 @@ class FileTest extends TestCase
     {
         $config = $this->prophesize(FileConfig::class);
         $config->getAddress()->willReturn(__DIR__.'/../../data/files/empty-file.json');
-        $this->expectException(FileNotFound::class);
+        $this->expectException(FileNotFoundException::class);
         $this->expectExceptionMessage(sprintf('File "%s" not found', __DIR__.'/../../data/files/empty-file.json'));
         $testedInstance = new File($config->reveal());
         $testedInstance->getServiceByName('test');
