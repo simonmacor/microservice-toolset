@@ -14,7 +14,7 @@ Microservice Toolset is compatible with Etcd and Consul for service registration
 ## Features
 
 * [JSON-RPC 2.0](https://www.jsonrpc.org/specification) Compliant HTTP Client: Easily make JSON-RPC calls between services.
-* Advanced Logging: Built-in logger for structured logging.
+* Advanced Logging: Monolog handler for structured logging.
 * Service Discovery: Integrates with Etcd, Consul or json file for service registration and discovery.
 
 ## Installation
