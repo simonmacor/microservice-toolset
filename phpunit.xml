@@ -10,8 +10,8 @@
     <testsuite name="Logger">
       <directory>tests/Logger/</directory>
     </testsuite>
-    <testsuite name="ServiceDiscovery">
-      <directory>tests/ServiceDiscovery/</directory>
+    <testsuite name="ServicesDiscovery">
+      <directory>tests/ServicesDiscovery/</directory>
     </testsuite>
   </testsuites>
 </phpunit>
