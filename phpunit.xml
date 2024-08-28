@@ -14,4 +14,15 @@
       <directory>tests/ServicesDiscovery/</directory>
     </testsuite>
   </testsuites>
+
+  <coverage>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+    <report>
+      <clover outputFile="build/logs/clover.xml"/>
+      <html outputDirectory="build/coverage-html"/>
+      <text/>
+    </report>
+  </coverage>
 </phpunit>
