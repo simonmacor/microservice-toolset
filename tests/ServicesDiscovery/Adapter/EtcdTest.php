@@ -22,6 +22,7 @@ class EtcdTest extends TestCase
     public function testEtcdIsInstanceOfAdapter(): void
     {
         $config = $this->prophesize(ApiConfig::class);
+        $config->getAddress()->willReturn('localhost');
         $this->assertInstanceOf(Adapter::class, new Etcd($config->reveal()));
     }
 
