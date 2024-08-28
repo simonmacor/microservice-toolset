@@ -24,16 +24,20 @@ use Psr\Log\LoggerInterface;
 
 class Client
 {
+    private const JSON_RPC_ENDPOINT = "/jsonrpc";
+
+    private const DEFAULT_PARAM_TO_HIDE = ['password'];
+
     /**
-     * @param array<string> $paramsToMask
+     * @param array<string> $paramsToHide
      */
     public function __construct(
-        private readonly GuzzleClient     $client,
-        private readonly Adapter $serviceRegistry,
-        private readonly LoggerInterface  $logger,
-        private readonly Context          $context,
-        private readonly string           $path = "/jsonrpc",
-        private readonly array            $paramsToMask = ["password"],
+        private readonly GuzzleClient    $client,
+        private readonly Adapter         $serviceRegistry,
+        private readonly LoggerInterface $logger,
+        private readonly Context         $context,
+        private readonly string          $path = self::JSON_RPC_ENDPOINT,
+        private readonly array           $paramsToHide = self::DEFAULT_PARAM_TO_HIDE,
     ) {
     }
 
@@ -49,7 +53,9 @@ class Client
             throw new ServiceNotFoundException($serviceName);
         }
 
-        $JsonRpcRequest = new JsonRpcRequest($this->context->getId(), $method.'.'.$version, $params);
+        $method = $version > 1 ? $method . '.v' . $version : $method;
+
+        $JsonRpcRequest = new JsonRpcRequest($this->context->getId(), $method, $params);
 
         $this->logger->info("request sent", $this->buildLogContextFromJsonRpcRequest($JsonRpcRequest));
 
@@ -88,7 +94,7 @@ class Client
     private function buildLogContextFromJsonRpcRequest(JsonRpcRequest $request): array
     {
         $requestAsArray = $request->toArray();
-        foreach ($this->paramsToMask as $key) {
+        foreach ($this->paramsToHide as $key) {
             if (is_array($requestAsArray['params']) && array_key_exists($key, $requestAsArray['params'])) {
                 $requestAsArray['params'][$key] = '****';
             }
