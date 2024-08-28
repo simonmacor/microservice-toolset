@@ -1,3 +1,4 @@
+[![Coverage Status](https://coveralls.io/repos/github/simonmacor/microservice-toolset/badge.svg)](https://coveralls.io/github/simonmacor/microservice-toolset)
 # microservice-toolset
 PHP toolset for a microservices architecture (logger, HTTP client compliant with the JSON-RPC standard)
 
