@@ -1,4 +1,4 @@
-[![CI](https://github.com/simonmacor/microservice-toolset/actions/workflows/ci.yml/badge.svg)](https://github.com/simon/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/simonmacor/microservice-toolset/badge.svg)](https://coveralls.io/github/simonmacor/microservice-toolset)
+[![CI](https://github.com/simonmacor/microservice-toolset/actions/workflows/ci.yml/badge.svg)](https://github.com/simon/microservice-toolset/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/simonmacor/microservice-toolset/badge.svg)](https://coveralls.io/github/simonmacor/microservice-toolset)
 # Microservice toolset
 Microservice Toolset is a PHP library designed to support microservices architecture by providing a set of tools including a logger and an HTTP client that complies to the JSON-RPC standard.
 Each service call generates a log entry for both the request sent and the response received. These entries include a context (which can be extended) that contains a correlation ID and a principal by default. 
