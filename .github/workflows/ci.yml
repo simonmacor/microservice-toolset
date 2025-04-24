@@ -39,7 +39,7 @@ jobs:
             path: vendor
 
       - name: Run Rector (dry-run)
-        run: vendor/bin/rector process --dry-run
+        run: chmod +x vendor/bin/rector && vendor/bin/rector process --dry-run
 
   unit-tests:
     runs-on: ubuntu-latest
